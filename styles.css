@@ -1,0 +1,34 @@
+html {
+    font-family: sans-serif;
+  }
+  
+  body {
+    width: 100%; /* Ajustar el ancho al 100% */
+    height: 100vh; /* Ajustar la altura al 100% de la ventana */
+    margin: 0;
+    /* Añadir fondo y escalarlo profesionalmente */
+    background-image: url('img/JB4.jpg'); /* Ruta de la imagen de fondo */
+    background-size: cover; /* Escalar la imagen para cubrir todo el fondo */
+    background-position: center; /* Centrar la imagen de fondo */
+    background-repeat: no-repeat; /* No repetir la imagen de fondo */
+  }
+  
+  .content {
+    background: rgba(255, 255, 255, .90); /* Fondo translúcido */
+    padding: 20px;
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+    text-align: center; /* Centrar el texto */
+    max-width: 800px; /* Ancho máximo del modal */
+    width: 100%; /* Ancho completo del modal */
+    box-sizing: border-box; /* Incluir padding en el ancho */
+    position: absolute; /* Posicionar absolutamente */
+    top: 50%; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Ajustar la posición al centro */
+  }
+  
+  .lastResult {
+    color: white;
+    padding: 3px;
+  }
