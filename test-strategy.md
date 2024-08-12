@@ -5,8 +5,8 @@
     En este caso, considero que las funciones principales son checkGuess, setGameOver, y resetGame.
 
 * Configurar el Entorno de Pruebas:
-    Se verifica que el entorno de pruebas esté correctamente configurado con Jest y jsdom.
-    Se separa el código JavaScript en un archivo independiente (game.js) para facilitar las pruebas.
+    Se verifica que el entorno de pruebas esté correctamente configurado con Qunit.
+    Para una mejor comprensión se separa el código JavaScript en un archivo independiente (game.js) para facilitar las pruebas.
 
 # Escribir Casos de Prueba:
 * Casos de Prueba para checkGuess:
@@ -22,7 +22,7 @@
     Se verifica que el juego se reinicia correctamente, incluyendo la generación de un nuevo número aleatorio y la reactivación de los campos de entrada y el botón de envío.
 
 # Ejecutar las Pruebas:
-    Se utiliza Jest para ejecutar las pruebas y verificar que todas pasen.
+    Se utiliza Qunit para ejecutar las pruebas y verificar que todas pasen.
     Se revisa los resultados y corregir cualquier error detectado.
 
 # Mantener y Actualizar las Pruebas:
