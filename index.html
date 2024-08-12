@@ -5,15 +5,33 @@
 
     <title>Juego de adivina tu número</title>
 
+    <link rel="icon" href="img/icono banrural.png" type="image/png"> <!-- Añadi el icono de banrural -->
+    
     <style>
       html {
         font-family: sans-serif;
       }
       body {
-        width: 50%;
-        max-width: 800px;
-        min-width: 480px;
-        margin: 0 auto;
+        width: 100%; /* Se ajusta el ancho al 100% */
+        height: 100vh; /* Se ajusta la altura al 100% de la ventana */
+        margin: 0;
+        /* Se añade fondo*/
+        background-image: url('img/JB4.jpg'); /* Ruta de la imagen de fondo */
+        background-size: cover; /*se ajusta la imagen para cubrir todo el fondo */
+      }
+      .content {
+        background: rgba(255, 255, 255, .90); /* Fondo translúcido */
+        padding: 20px;
+        border-radius: 20px; /* Bordes redondeados */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+        text-align: center; /* Centrar el texto */
+        max-width: 800px; /* Ancho máximo del modal */
+        width: 100%; /* Ancho completo del modal */
+        box-sizing: border-box; /* Incluir padding en el ancho */
+        position: absolute; /* Posicionar absolutamente */
+        top: 50%; /* Centrar verticalmente */
+        left: 50%; /* Centrar horizontalmente */
+        transform: translate(-50%, -50%); /* Ajustar la posición al centro */
       }
       .lastResult {
         color: white;
@@ -23,95 +41,109 @@
   </head>
 
   <body>
+    <div class="content"> <!-- Añadir un contenedor para el contenido -->
       <h1>Juego Adivina tu número</h1>
 
       <p>Hemos seleccionado un número aleatorío entre 1 a 100. Trata de adivinar el número, en un total de 10 turnos o menos. No te preocupes, te diremos sí el número es más alto o más bajo </p>
+      
+      <br>
+      <br>
+      <div class="form">
+        <label for="guessField">Ingresa el número a adivinar: </label><input type="text" id="guessField" class="guessField">
+        <input type="submit" value="Ingresar el número aleatorio" class="guessSubmit">
+      </div>
 
-<div class="form">
-  <label for="guessField">Ingresa el número a adivinar: </label><input type="text" id="guessField" class="guessField">
-  <input type="submit" value="Ingresar el número aleatorio" class="guessSubmit">
-</div>
+      <div class="resultParas">
+        <p class="guesses"></p>
+        <p class="lastResult"></p>
+        <p class="lowOrHi"></p>
+      </div>
+      
+    </div>
+  </body>
 
-<div class="resultParas">
-  <p class="guesses"></p>
-  <p class="lastResult"></p>
-  <p class="lowOrHi"></p>
-</div>
+  <script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;//Generación correcta del número aleatorio entre 1 y 100
 
-</body>
+    const ATTEMPS = 10;//Número de intentos cambiado a 10
+    const guesses = document.querySelector('.guesses');
+    const lastResult = document.querySelector('.lastResult');
+    const lowOrHi = document.querySelector('.lowOrHi'); //Selector de clase correcto
+    const guessSubmit = document.querySelector('.guessSubmit');
+    const guessField = document.querySelector('.guessField');
 
-<script>
-  let randomNumber = Math.random() * 10; //Esta linea no esta generando el numero correcto, debe ser entre el 1 y 100
+    let guessCount = 1;
+    let resetButton;
 
-  const ATTEMPS = 5;//La constante esta mal definida, debe ser 10.
-  const guesses = document.querySelector('.guesses');
-  const lastResult = document.querySelector('.lastResult');
-  const lowOrHi = document.querySelector('lowOrHi');//Hace falta el . en el selector
-  const guessSubmit = document.querySelector('.guessSubmit');
-  const guessField = document.querySelector('.guessField');
+    function checkGuess() {
 
-  let guessCount = 1;
-  let resetButton;
-
-  function checkGuess() {
-
-    let userGuess = guessField.value;
-    if(guessCount === 1) {
-      guesses.textContent = 'Número aleatorio anterior: ';
-    }
-    guesses.textContent += userGuess + ' ';
-
-    if(userGuess === randomNumber) { //solo se compara el numero ingresado, no se convierte en entero.
-      lastResult.textContent = '!!!Pérdiste!!!'; //Linea corresponde a la linea 70
-      lastResult.style.backgroundColor = 'black';//Linea corresponde a la linea 71
-      lowOrHi.textContent = '';
-      setGameOver();
-    } else if(guessCount === ATTEMPS) {
-      lastResult.textContent = 'Felicitaciones! adivinaste el número!';//linea corresponde a la linea 65
-      lastResult.style.backgroundColor = 'red'; //Linea corresponde a la linea 66
-      setGameOver();
-    } else {
-      lastResult.textContent = 'Incorrecto! ';
-      lastResult.style.backgroundColor = 'green';
-      if(userGuess < randomNumber) {
-        lowOrHi.textContent = 'El número es mayor!';
-      } else if(userGuess > randomNumber) {
-        lowOrHi.textContent = 'El número es menor!';
+      let userGuess = parseInt(guessField.value);//Conversión del valor ingresado a entero
+      if(guessCount === 1) {
+        guesses.textContent = 'Número aleatorio anterior: ';
       }
+      guesses.textContent += userGuess + ' ';
+
+      //Comparación correcta y mensajes intercambiados
+      if(userGuess === randomNumber) {
+        lastResult.textContent = 'Felicitaciones! adivinaste el número!';
+        lastResult.style.backgroundColor = 'green'; //Color verde para el mensaje de éxito
+        lowOrHi.textContent = '';
+        setGameOver();
+      } else if(guessCount === ATTEMPS) {
+        lastResult.textContent = '!!!Pérdiste!!!';
+        lastResult.style.backgroundColor = 'red'; //Color rojo para el mensaje de pérdida
+        setGameOver();
+      } else {
+        lastResult.textContent = 'Incorrecto!';
+        lastResult.style.backgroundColor = 'black'; //Color negro para el mensaje incorrecto
+        if(userGuess < randomNumber) {
+          lowOrHi.textContent = 'El número es mayor!';
+        } else if(userGuess > randomNumber) {
+          lowOrHi.textContent = 'El número es menor!';
+        }
+      }
+
+      guessCount++;
+      guessField.value = '';
+      guessField.focus();
+    }
+    guessSubmit.addEventListener('click', checkGuess);//Método de evento correcto
+
+    function setGameOver() {
+      guessField.disabled = true;
+      guessSubmit.disabled = true;
+
+      // Crear un contenedor para el botón
+      const buttonContainer = document.createElement('div');
+      buttonContainer.style.textAlign = 'center'; // Centrar el botón
+      buttonContainer.style.marginTop = '20px'; // Espacio arriba del botón
+
+      resetButton = document.createElement('button');
+      resetButton.textContent = 'Comienza un nuevo juego';
+      buttonContainer.appendChild(resetButton); 
+      
+      // Agregar el contenedor del botón debajo del contenido principal
+      document.querySelector('.content').appendChild(buttonContainer);
+      resetButton.addEventListener('click', resetGame); //Método de evento correcto
     }
 
-    guessCount++;
-    guessField.value = '';
-    guessField.focus();
-  }
-  guessSubmit.addeventListener('click', checkGuess); //metodo mal escrito
+    function resetGame() {
+      guessCount = 1;
 
-  function setGameOver() {
-	  guessField.disabled = true;
-	  guessSubmit.disabled = true;
-	  resetButton = document.createElement('button');
-	  resetButton.textContent = 'Comienza un nuevo juego';
-	  document.body.appendChild(resetButton);
-	  resetButton.addeventListener('click', resetGame); //metodo mas escrito
-  }
+      const resetParas = document.querySelectorAll('.resultParas p');
+      for(let i = 0; i < resetParas.length; i++) {
+        resetParas[i].textContent = '';
+      }
+      resetButton.parentNode.removeChild(resetButton);
 
-  function resetGame() {
-	  guessCount = 1;
+      guessField.disabled = false;
+      guessSubmit.disabled = false;
+      guessField.value = '';
+      guessField.focus();
 
-	  const resetParas = document.querySelectorAll('.resultParas p');
-	  for(let i = 0; i < resetParas.length; i++) {
-		  resetParas[i].textContent = '';
-	  }
-	  resetButton.parentNode.removeChild(resetButton);
+      lastResult.style.backgroundColor = 'white';
 
-	  guessField.disabled = false;
-	  guessSubmit.disabled = false;
-	  guessField.value = '';
-	  guessField.focus();
-
-	  lastResult.style.backgroundColor = 'white';
-
-	  randomNumber = Math.floor(Math.random()) + 1;//El numero aleatorio se genera incorrectamente
-  }
+    randomNumber = Math.floor(Math.random() * 100) + 1; //Generación correcta del nuevo número aleatorio
+    }
 </script>
 </html>
